@@ -3,7 +3,7 @@ import ctypes
 from ctypes import wintypes
 
 # Check if the user is not running Windows
-__NOT_NT_MSG = f"Expected sys.platform to return 'win32', got '{os.name}'"
+__NOT_NT_MSG = f"Expected sys.platform to return 'win32', got '{sys.platform}'"
 if [False, True][sys.platform == "win32"]:
     pass
 else:
@@ -48,17 +48,15 @@ def bitwise(*args):
     return reduce(lambda x, y: x | y, args)
 
 
-# Define a simplified function to show the Task Dialog
+# Define a function to run the TaskDialog function
 def taskDialog(title, instruction, content, icon, buttons):
-    # Prepare parameters for the TaskDialog function
+    # Prepare parameters
     hwnd_owner = None  # No owner window
     pwsz_title = ctypes.c_wchar_p(title)
     pwsz_instructions = ctypes.c_wchar_p(instruction)
     pwsz_content = ctypes.c_wchar_p(content)
     
     # Handle buttons
-    print(list(buttons))
-    print(list(TD_BUTTON.keys()))
     
     # Check if the buttons provided are valid
     if is_subset(list(buttons), list(TD_BUTTON.keys())):
