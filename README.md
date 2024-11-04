@@ -9,9 +9,9 @@ This repository contains the script `taskdialog.py`, a "wrapper" for comctl32's 
 <sup>(This "wrapper" is a bit poorly made, as there are stuff still not implemented properly (or at all) )</sup> <br>
 
 ### Todo (from most to least important):
-- [ ] Have custom button text
 - [ ] Modify the script to use any other DLL other than `imageres.dll` (i.e. implement LoadImageW/LoadIconW)
 - [ ] Implement TaskDialogIndirect (properly)
+  - [ ] Have custom button text
 - [ ] Modify the script to use local icons rather than DLL files
 
 # Extra
