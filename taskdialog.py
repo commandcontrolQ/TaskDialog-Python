@@ -1,4 +1,6 @@
 import sys
+sys.dont_write_bytecode = True
+
 import ctypes
 from ctypes import wintypes
 
@@ -60,7 +62,6 @@ def taskDialog(title, instruction, content, icon, buttons):
     
     # Check if the buttons provided are valid
     if is_subset(list(buttons), list(TD_BUTTON.keys())):
-        button_texts = [(text.title() if text != "OK" else text) for text in list(buttons)]
         button_values = [TD_BUTTON[b] for b in buttons]
         if len(buttons) > 1:
             button_type = bitwise(*button_values)
@@ -70,14 +71,14 @@ def taskDialog(title, instruction, content, icon, buttons):
         raise ValueError(f"Button(s) {list(buttons)} not in {list(TD_BUTTON.keys())}")
             
 
-    # Prepare button array and result variable
-    button_count = len(button_texts)
-    buttons = (ctypes.c_wchar_p * button_count)(*button_texts)
+    # Prepare result variable
     button_result = wintypes.INT()
 
     # Get the icon handle
     if icon in icons.keys():
         icon_handle = icons[icon]
+    elif isinstance(icon, int):
+        icon_handle = icon
     else:
         icon_handle = 0x0000 # Default, no icon
 
@@ -104,6 +105,6 @@ if __name__ == "__main__":
 Introduced in Windows Vista, it serves as a more modern alternative to the MessageBox* functions introduced in Windows 2000.
 One major difference is the increase in customization, including a 'instruction' section (see blue text above).""",
         icon = 'info',
-        buttons = ("YES","NO","CANCEL") # Due to how Python recognizes tuples, if you want only one button MAKE SURE THE BUTTONS TUPLE ENDS WITH A COMMA
+        buttons = ("OK",) # Due to how Python recognizes tuples, if you want only one button MAKE SURE THE BUTTONS TUPLE ENDS WITH A COMMA
     )
     print(f"TaskDialog returned {result}")
